@@ -40,7 +40,12 @@ pipeline {
                 docker rm -f backend || exit 0
                 docker rm -f frontend || exit 0
 
-                docker run -d -p 8000:8000 --name backend --network lifelink-network -e DATABASE_URL=%DATABASE_URL% %BACKEND_IMAGE%
+                docker run -d -p 8000:8000 --name backend --network lifelink-network ^
+                -e DATABASE_URL=%DATABASE_URL% ^
+                -e SECRET_KEY=dev-secret-key ^
+                -e MODEL_PATH=/app/app/ml/models ^
+                %BACKEND_IMAGE%
+
                 docker run -d -p 3000:3000 --name frontend --network lifelink-network %FRONTEND_IMAGE%
                 '''
             }
