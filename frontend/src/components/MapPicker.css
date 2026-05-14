@@ -1,0 +1,72 @@
+.map-picker {
+  margin: 1rem 0;
+}
+
+.map-header {
+  position: relative;
+}
+
+.map-label {
+  display: block;
+  font-weight: 600;
+  margin-bottom: 0.5rem;
+  color: var(--text-primary);
+}
+
+.map-wrapper {
+  position: relative;
+  margin: 1rem 0;
+}
+
+.map-container {
+  height: 360px;
+  border-radius: 16px;
+  box-shadow: var(--shadow-1);
+  border: 1px solid var(--glass-border);
+  position: relative;
+  z-index: 1;
+}
+
+.btn-geolocation {
+  position: absolute;
+  top: 12px;
+  right: 12px;
+  background: var(--gradient-primary);
+  color: white;
+  border: none;
+  padding: 0.6rem 1rem;
+  border-radius: 999px;
+  font-weight: 600;
+  cursor: pointer;
+  transition: all 0.3s;
+  box-shadow: 0 12px 20px rgba(209, 29, 79, 0.3);
+  font-size: 0.9rem;
+  z-index: 400;
+}
+
+.btn-geolocation:hover {
+  transform: translateY(-2px);
+  box-shadow: 0 6px 16px rgba(196, 30, 58, 0.4);
+}
+
+.btn-geolocation:active {
+  transform: translateY(0);
+}
+
+.map-info {
+  background: var(--surface-strong);
+  padding: 1rem;
+  border-radius: 14px;
+  margin-top: 1rem;
+  border-left: 4px solid var(--primary);
+}
+
+.map-info p {
+  margin: 0.5rem 0;
+  font-size: 0.95rem;
+  color: var(--text-secondary);
+}
+
+.leaflet-container {
+  font-family: inherit;
+}

@@ -1,0 +1,246 @@
+.matches-page {
+  max-width: 1400px;
+  margin: 0 auto;
+  padding: 2rem 1rem;
+  min-height: 100vh;
+  background: transparent;
+}
+
+.matches-header {
+  background: var(--gradient-primary);
+  color: #fff;
+  padding: 1.5rem 2rem;
+  border-radius: var(--radius-md);
+  margin-bottom: 1.5rem;
+  box-shadow: var(--shadow-1);
+}
+
+.header-content h1 {
+  margin: 0 0 0.5rem 0;
+  font-size: 1.8rem;
+  font-weight: 700;
+}
+
+.request-info {
+  margin: 0;
+  font-size: 0.95rem;
+  opacity: 0.9;
+}
+
+.request-info code {
+  background: rgba(255, 255, 255, 0.2);
+  padding: 0.2rem 0.5rem;
+  border-radius: 6px;
+  font-family: monospace;
+}
+
+.table-wrapper {
+  background: var(--surface-strong);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  box-shadow: var(--shadow-1);
+  overflow: hidden;
+  margin-bottom: 2rem;
+}
+
+.matches-table {
+  width: 100%;
+  border-collapse: collapse;
+  font-size: 0.95rem;
+}
+
+.matches-table thead {
+  background: var(--surface);
+  border-bottom: 1px solid var(--glass-border);
+}
+
+.matches-table th {
+  padding: 1rem;
+  text-align: left;
+  font-weight: 600;
+  color: var(--text-primary);
+  white-space: nowrap;
+  border-right: 1px solid var(--glass-border);
+}
+
+.matches-table th:last-child {
+  border-right: none;
+}
+
+.matches-table tbody tr {
+  border-bottom: 1px solid var(--glass-border);
+  transition: background-color 0.15s ease;
+}
+
+.matches-table tbody tr:hover {
+  background: rgba(148, 163, 184, 0.12);
+}
+
+.matches-table tbody tr.top-match {
+  background: linear-gradient(90deg, rgba(196, 30, 58, 0.04) 0%, transparent 100%);
+}
+
+.matches-table tbody tr.top-match:hover {
+  background: linear-gradient(90deg, rgba(196, 30, 58, 0.08) 0%, rgba(196, 30, 58, 0.02) 100%);
+}
+
+.matches-table td {
+  padding: 1rem;
+  vertical-align: middle;
+  border-right: 1px solid var(--glass-border);
+  color: var(--text-secondary);
+}
+
+.matches-table td:last-child {
+  border-right: none;
+}
+
+.rank-badge {
+  display: inline-block;
+  background: var(--gradient-primary);
+  color: #fff;
+  padding: 0.3rem 0.6rem;
+  border-radius: 8px;
+  font-size: 0.8rem;
+  font-weight: 600;
+  min-width: 50px;
+  text-align: center;
+}
+
+.rank-badge.top {
+  background: var(--gradient-primary);
+}
+
+.name-cell {
+  font-weight: 600;
+  color: var(--text-primary);
+}
+
+.score-pill {
+  display: inline-block;
+  color: #fff;
+  padding: 0.4rem 0.8rem;
+  border-radius: 20px;
+  font-weight: 600;
+  font-size: 0.85rem;
+  min-width: 60px;
+  text-align: center;
+}
+
+.status-eligible {
+  color: #28a745;
+  font-weight: 600;
+}
+
+.status-ineligible {
+  color: #dc3545;
+  font-weight: 600;
+}
+
+.btn-contact-donor {
+  background: var(--gradient-primary);
+  color: #fff;
+  border: none;
+  padding: 0.5rem 0.8rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-size: 1rem;
+  transition: all 0.2s ease;
+  font-weight: 600;
+  min-width: 40px;
+}
+
+.btn-contact-donor:hover {
+  filter: brightness(0.95);
+  transform: scale(1.05);
+}
+
+.footer-actions {
+  display: flex;
+  gap: 1rem;
+  justify-content: center;
+}
+
+.btn-secondary {
+  background: var(--surface-strong);
+  color: var(--text-primary);
+  border: 1px solid var(--glass-border);
+  padding: 0.7rem 2rem;
+  border-radius: 999px;
+  cursor: pointer;
+  font-weight: 600;
+  font-size: 0.95rem;
+  transition: all 0.2s ease;
+}
+
+.btn-secondary:hover {
+  background: var(--primary-soft);
+  color: var(--primary-dark);
+  transform: translateY(-1px);
+}
+
+.no-matches {
+  background: var(--surface-strong);
+  border: 1px solid var(--glass-border);
+  border-radius: var(--radius-md);
+  padding: 3rem 2rem;
+  text-align: center;
+  box-shadow: var(--shadow-1);
+}
+
+.no-matches h2 {
+  color: var(--text-primary);
+  margin-bottom: 1rem;
+}
+
+.no-matches p {
+  color: var(--text-secondary);
+  margin-bottom: 2rem;
+}
+
+.no-match-hints {
+  display: inline-flex;
+  gap: 0.5rem;
+  flex-wrap: wrap;
+  justify-content: center;
+  margin-bottom: 1rem;
+}
+
+/* Responsive */
+@media (max-width: 1024px) {
+  .matches-table {
+    font-size: 0.9rem;
+  }
+
+  .matches-table th,
+  .matches-table td {
+    padding: 0.8rem;
+  }
+}
+
+@media (max-width: 768px) {
+  .matches-page {
+    padding: 1rem;
+  }
+
+  .matches-header {
+    padding: 1rem;
+  }
+
+  .matches-header h1 {
+    font-size: 1.3rem;
+  }
+
+  .matches-table {
+    font-size: 0.8rem;
+  }
+
+  .matches-table th,
+  .matches-table td {
+    padding: 0.6rem 0.4rem;
+  }
+
+  .table-wrapper {
+    overflow-x: auto;
+  }
+}

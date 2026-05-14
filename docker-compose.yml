@@ -1,0 +1,59 @@
+version: '3.9'
+
+services:
+  database:
+    image: postgres:16-alpine
+    environment:
+      POSTGRES_USER: ${DB_USER:-lifelink_user}
+      POSTGRES_PASSWORD: ${DB_PASSWORD:-lifelink_password}
+      POSTGRES_DB: ${DB_NAME:-lifelink_db}
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ["CMD-SHELL", "pg_isready -U ${DB_USER:-lifelink_user}"]
+      interval: 10s
+      timeout: 5s
+      retries: 5
+    networks:
+      - lifelink-network
+
+  backend:
+    build:
+      context: .
+      dockerfile: Dockerfile.backend
+    environment:
+      DATABASE_URL: ${DATABASE_URL:-REMOVED${DB_USER:-lifelink_user}:${DB_PASSWORD:-lifelink_password}@database:5432/${DB_NAME:-lifelink_db}}
+      APP_ENV: ${APP_ENV:-production}
+      DEBUG: ${DEBUG:-false}
+      SECRET_KEY: ${SECRET_KEY:-your-secret-key-here}
+      MODEL_PATH: ${MODEL_PATH:-/app/ml/models}
+      API_HOST: 0.0.0.0
+      API_PORT: 8000
+      LOG_LEVEL: ${LOG_LEVEL:-info}
+      FRONTEND_URL: ${FRONTEND_URL:-http://localhost:3000}
+    ports:
+      - "8000:8000"
+    depends_on:
+      database:
+        condition: service_healthy
+    networks:
+      - lifelink-network
+    restart: unless-stopped
+
+  frontend:
+    build:
+      context: .
+      dockerfile: Dockerfile.frontend
+    ports:
+      - "3000:3000"
+    depends_on:
+      - backend
+    networks:
+      - lifelink-network
+    restart: unless-stopped
+
+volumes:
+  postgres_data:
+
+networks:
+  lifelink-network:
