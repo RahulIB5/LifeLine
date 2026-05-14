@@ -12,13 +12,12 @@ pipeline {
             steps {
                 echo "🌐 Setting up Docker network and database..."
                 bat '''
-                docker network create lifelink-network || exit 0
-                docker rm -f lifelink-db || exit 0
+                docker network create lifelink-network 2>nul || echo Network already exists
+                docker rm -f lifelink-db 2>nul || echo No existing DB to remove
                 docker run -d --name lifelink-db --network lifelink-network -e POSTGRES_USER=lifelink_user -e POSTGRES_PASSWORD=lifelink_password -e POSTGRES_DB=lifelink_db postgres:16-alpine
                 
-                echo ⏳ Waiting for database to be ready...
-                :loop
-                docker exec lifelink-db pg_isready -U lifelink_user || (timeout /t 2 >nul & goto loop)
+                echo ⏳ Waiting 5 seconds for database to be ready...
+                timeout /t 5 /nobreak
                 '''
             }
         }
