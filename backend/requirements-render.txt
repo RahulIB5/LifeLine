@@ -8,3 +8,5 @@ pydantic-settings
 joblib
 numpy
 python-json-logger
+xgboost
+scikit-learn

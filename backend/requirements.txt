@@ -18,6 +18,8 @@ alembic
 # ML / Data Science
 # -----------------------------
 numpy
+xgboost
+scikit-learn
 pandas==2.2.2
 scikit-learn==1.5.0
 xgboost==2.0.0
