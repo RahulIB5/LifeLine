@@ -32,22 +32,7 @@ pipeline {
         stage('Build Frontend Image') {
             steps {
                 echo "🐳 Building Frontend Docker Image..."
-                bat '''
-                setlocal EnableDelayedExpansion
-                set "VITE_API_BASE_URL="
-
-                for /f "tokens=1,* delims==" %%a in (frontend\.env) do (
-                    if /I "%%a"=="VITE_API_BASE_URL" set "VITE_API_BASE_URL=%%b"
-                )
-
-                if "!VITE_API_BASE_URL!"=="" (
-                    echo VITE_API_BASE_URL is missing in frontend/.env
-                    exit /b 1
-                )
-
-                docker build -f Dockerfile.frontend -t %FRONTEND_IMAGE% --build-arg VITE_API_BASE_URL=!VITE_API_BASE_URL! .
-                endlocal
-                '''
+                bat 'docker build -f Dockerfile.frontend -t %FRONTEND_IMAGE% --build-arg VITE_API_BASE_URL=http://127.0.0.1:8000 .'
             }
         }
 
