@@ -58,6 +58,85 @@ uvicorn app.main:app --reload
 
 API available at: `http://127.0.0.1:8000`
 
+## Run with Docker (local)
+
+### Prerequisites
+
+- Docker Desktop
+
+### Build and run containers
+
+```bash
+docker build -f Dockerfile.backend -t lifelink-backend:v1 .
+docker build -f Dockerfile.frontend -t lifelink-frontend:v1 .
+
+docker network create lifelink-network
+docker run -d --name lifelink-db --network lifelink-network \
+   -e POSTGRES_USER=lifelink_user \
+   -e POSTGRES_PASSWORD=lifelink_password \
+   -e POSTGRES_DB=lifelink_db \
+   postgres:16-alpine
+
+docker run -d -p 8000:8000 --name backend --network lifelink-network \
+   -e DATABASE_URL=postgresql://lifelink_user:lifelink_password@lifelink-db:5432/lifelink_db \
+   -e SECRET_KEY=your-super-secret-key-here \
+   -e MODEL_PATH=/app/app/ml/models/model_v1.pkl \
+   lifelink-backend:v1
+
+docker run -d -p 3000:3000 --name frontend --network lifelink-network \
+   lifelink-frontend:v1
+```
+
+Frontend: `http://localhost:3000`
+
+Backend: `http://localhost:8000`
+
+## Run with Jenkins (Windows)
+
+### Prerequisites
+
+- Jenkins installed and running
+- Docker Desktop running
+
+### Steps
+
+1. Create a new Jenkins Pipeline job
+2. In the Pipeline definition, select "Pipeline script from SCM"
+3. Set the repo URL to your Git repository and script path to `Jenkinsfile`
+4. Run the job with "Build Now"
+
+The pipeline builds images, starts a Postgres container, then starts backend and frontend containers.
+
+## Run on Kubernetes (Minikube)
+
+### Prerequisites
+
+- Minikube
+- kubectl
+
+### Steps
+
+```bash
+minikube start
+
+# Load local images into Minikube
+minikube image load lifelink-backend:v1
+minikube image load lifelink-frontend:v1
+
+# Apply manifests
+kubectl apply -f k8s/configmap.yaml
+kubectl apply -f k8s/backend-deployment.yaml
+kubectl apply -f k8s/backend-service.yaml
+kubectl apply -f k8s/frontend-deployment.yaml
+kubectl apply -f k8s/frontend-service.yaml
+
+# Get service URLs
+minikube service backend-service --url
+minikube service frontend-service --url
+```
+
+Note: With the Docker driver on Windows, keep the terminal open while using the Minikube service URL.
+
 ## API Endpoints
 
 | Method | Endpoint             | Description            |
