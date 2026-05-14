@@ -17,7 +17,7 @@ pipeline {
                 docker run -d --name lifelink-db --network lifelink-network -e POSTGRES_USER=lifelink_user -e POSTGRES_PASSWORD=lifelink_password -e POSTGRES_DB=lifelink_db postgres:16-alpine
                 
                 echo ⏳ Waiting 5 seconds for database to be ready...
-                timeout /t 5 /nobreak
+                ping 127.0.0.1 -n 6 > nul
                 '''
             }
         }
