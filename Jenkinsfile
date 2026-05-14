@@ -4,9 +4,20 @@ pipeline {
     environment {
         BACKEND_IMAGE = "lifelink-backend:v1"
         FRONTEND_IMAGE = "lifelink-frontend:v1"
+        DATABASE_URL = "postgresql://lifelink_user:lifelink_password@database:5432/lifelink_db"
     }
 
     stages {
+        stage('Docker Network & DB') {
+            steps {
+                echo "🌐 Setting up Docker network and database..."
+                bat '''
+                docker network create lifelink-network || exit 0
+                docker rm -f database || exit 0
+                docker run -d --name database --network lifelink-network -e POSTGRES_USER=lifelink_user -e POSTGRES_PASSWORD=lifelink_password -e POSTGRES_DB=lifelink_db postgres:16-alpine
+                '''
+            }
+        }
 
         stage('Build Backend Image') {
             steps {
@@ -29,8 +40,8 @@ pipeline {
                 docker rm -f backend || exit 0
                 docker rm -f frontend || exit 0
 
-                docker run -d -p 8000:8000 --name backend %BACKEND_IMAGE%
-                docker run -d -p 3000:3000 --name frontend %FRONTEND_IMAGE%
+                docker run -d -p 8000:8000 --name backend --network lifelink-network -e DATABASE_URL=%DATABASE_URL% %BACKEND_IMAGE%
+                docker run -d -p 3000:3000 --name frontend --network lifelink-network %FRONTEND_IMAGE%
                 '''
             }
         }
