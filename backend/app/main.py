@@ -12,7 +12,6 @@ from app.db.database import Base, engine
 from app.models import Donor, BloodRequest
 from app.routers import donor, request, match
 from app.core.config import settings, logger
-from app.ml.train import train_model
 
 # Global ML model variable
 ml_model = None
@@ -67,13 +66,8 @@ async def startup():
         ml_model = joblib.load(settings.MODEL_PATH)
         logger.info("✅ ML model loaded successfully")
     except FileNotFoundError:
-        logger.warning(f"Model not found at {settings.MODEL_PATH}. Training new model...")
-        try:
-            ml_model = train_model(settings.MODEL_PATH)
-            logger.info("✅ ML model trained and saved")
-        except Exception as e:
-            logger.error(f"❌ Error training model: {e}")
-            raise
+        logger.warning(f"Model not found at {settings.MODEL_PATH}. Continuing without ML model.")
+        ml_model = None
 
 
 @app.get("/")
